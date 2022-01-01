@@ -13,13 +13,13 @@ def voice_hook():
     # "man fighting a dragon in a field"
     # style something like
     # "cyberpunk"
-    prompt = request.form['prompt']
-    style = request.form['style'])
+    # prompt = request.form['prompt']
+    # style = request.form['style']
 
 
     # make an api call to generate a GAN image
-    image = api.generate(prompt, style)
-    render_pic(image)
+    # image = api.generate(prompt, style)
+    # render_pic(image)
 
     return('', 204)
 
