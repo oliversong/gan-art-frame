@@ -25,11 +25,15 @@ class AcepController:
     def __init__(self):
         self.epd_instance = None
         self.pic_index = 0
+        self.awake = False
 
     def render_pic(self):
         # TODO: pass in pic received from hook
         try:
             logging.info("attempting render")
+            if not self.epd_instance.awake:
+                logging.info("not awake, waking")
+                self.epd_instance.init()
             image = Image.open(
                 os.path.join(
                     os.path.dirname(os.path.realpath(__file__)),
@@ -38,6 +42,11 @@ class AcepController:
             )
             self.epd_instance.display(self.epd_instance.getbuffer(image))
             self.pic_index = (self.pic_index + 1) % len(pics)
+
+            time.sleep(3)
+            logging.info("sleep")
+            self.epd_instance.sleep()
+            self.awake = False
 
         except IOError as e:
             logging.info(e)
@@ -53,6 +62,7 @@ class AcepController:
             logging.info("init and Clear")
             self.epd_instance.init()
             self.epd_instance.Clear()
+            self.awake = True
             return self.epd_instance
 
         except IOError as e:
