@@ -22,9 +22,9 @@ def bitmapitize():
     pass
 
 class AcepController:
-    def __init__(self, epd_instance):
+    def __init__(self):
         self.awake = False
-        self.epd_instance = epd_instance
+        self.epd_instance = None
 
     def render_pic(self):
         # TODO: pass in pic received from hook
