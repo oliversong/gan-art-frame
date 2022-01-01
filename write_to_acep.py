@@ -40,6 +40,7 @@ class AcepController:
 
             logging.info("sleep")
             self.epd_instance.sleep()
+            self.awake = False
 
         except IOError as e:
             logging.info(e)
@@ -47,7 +48,6 @@ class AcepController:
         except KeyboardInterrupt:
             logging.info("ctrl + c:")
             epd5in65f.epdconfig.module_exit()
-            self.awake = False
             exit()
 
     def init_display(self):
