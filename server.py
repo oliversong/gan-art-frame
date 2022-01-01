@@ -25,3 +25,4 @@ def voice_hook():
 
 if __name__ == '__main__':
     init_display()
+    app.run(debug=True)
