@@ -7,6 +7,11 @@ app = Flask(__name__)
 def hello_world():
     return("<p>Hello, World!</p>")
 
+@app.route("/render")
+def render():
+    render_pic()
+    return('', 204)
+
 @app.route("/voice_hook", methods=['POST'])
 def voice_hook():
     # voice prompt sends something like
@@ -25,4 +30,4 @@ def voice_hook():
 
 if __name__ == '__main__':
     init_display()
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8090)
