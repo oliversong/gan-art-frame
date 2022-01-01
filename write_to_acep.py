@@ -17,25 +17,63 @@ logging.basicConfig(level=logging.DEBUG)
 
 pic = 'test.bmp'
 
-try:
-    logging.info("hi")
-    epd = epd5in65f.EPD()
-    logging.info("init and Clear")
-    epd.init()
-    epd.Clear()
+def render_pic(pic):
+    try:
+        logging.info("attempting render")
+        epd.display(epd.getbuffer(pic))
 
-    logging.info("read bmp file")
-    Himage = Image.open(os.path.join(os.path.dirname(os.path.realpath(__file__)), pic))
-    epd.display(epd.getbuffer(Himage))
-    time.sleep(3)
+        time.sleep(3)
 
-    logging.info("sleep")
-    epd.sleep()
+        logging.info("sleep")
+        epd.sleep()
 
-except IOError as e:
-    logging.info(e)
+    except IOError as e:
+        logging.info(e)
 
-except KeyboardInterrupt:
-    logging.info("ctrl + c:")
-    epd5in65f.epdconfig.module_exit()
-    exit()
+    except KeyboardInterrupt:
+        logging.info("ctrl + c:")
+        epd5in65f.epdconfig.module_exit()
+        exit()
+
+def init_display():
+    try:
+        epd = epd5in65f.EPD()
+        logging.info("init and Clear")
+        epd.init()
+        epd.Clear()
+
+    except IOError as e:
+        logging.info(e)
+
+    except KeyboardInterrupt:
+        logging.info("ctrl + c:")
+        epd5in65f.epdconfig.module_exit()
+        exit()
+
+
+def main():
+    try:
+        logging.info("hi")
+        epd = epd5in65f.EPD()
+        logging.info("init and Clear")
+        epd.init()
+        epd.Clear()
+
+        logging.info("read bmp file")
+        Himage = Image.open(os.path.join(os.path.dirname(os.path.realpath(__file__)), pic))
+        epd.display(epd.getbuffer(Himage))
+        time.sleep(3)
+
+        logging.info("sleep")
+        epd.sleep()
+
+    except IOError as e:
+        logging.info(e)
+
+    except KeyboardInterrupt:
+        logging.info("ctrl + c:")
+        epd5in65f.epdconfig.module_exit()
+        exit()
+
+if __name__ == '__main__':
+    main()
