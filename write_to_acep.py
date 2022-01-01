@@ -67,7 +67,7 @@ def main():
         epd.Clear()
 
         logging.info("read bmp file")
-        Himage = Image.open(os.path.join(os.path.dirname(os.path.realpath(__file__)), pic))
+        Himage = Image.open(os.path.join(os.path.dirname(os.path.realpath(__file__)), '3.bmp'))
         epd.display(epd.getbuffer(Himage))
         time.sleep(3)
 
