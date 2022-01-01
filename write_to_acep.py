@@ -20,6 +20,7 @@ pic = 'test.bmp'
 def render_pic():
     try:
         logging.info("attempting render")
+        epd = epd5in65f.EPD()
         epd.display(epd.getbuffer(pic))
 
         time.sleep(3)
