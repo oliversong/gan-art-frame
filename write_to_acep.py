@@ -17,11 +17,17 @@ logging.basicConfig(level=logging.DEBUG)
 
 pic = 'test.bmp'
 
+def bitmapitize():
+    # TODO: convert a normal image into a X by Y bitmap with 7 colors
+    pass
+
 def render_pic():
+    # TODO: pass in pic received from hook
     try:
         logging.info("attempting render")
         epd = epd5in65f.EPD()
-        epd.display(epd.getbuffer(pic))
+        image = Image.open(os.path.join(os.path.dirname(os.path.realpath(__file__)), pic))
+        epd.display(epd.getbuffer(image))
 
         time.sleep(3)
 
