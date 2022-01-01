@@ -1,8 +1,8 @@
 from flask import Flask
-from write_to_acep import render_pic, init_display
+from write_to_acep import AcepController
 
 app = Flask(__name__)
-epd = None
+controller = None
 
 @app.route("/")
 def hello_world():
@@ -10,7 +10,7 @@ def hello_world():
 
 @app.route("/render")
 def render():
-    render_pic(epd)
+    controller.render_pic()
     return('', 204)
 
 @app.route("/voice_hook", methods=['POST'])
@@ -30,5 +30,6 @@ def voice_hook():
     return('', 204)
 
 if __name__ == '__main__':
-    epd = init_display()
+    controller = AcepController()
+    controller.init_display()
     app.run(host='0.0.0.0', port=8090)
