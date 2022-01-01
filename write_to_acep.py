@@ -21,11 +21,10 @@ def bitmapitize():
     # TODO: convert a normal image into a X by Y bitmap with 7 colors
     pass
 
-def render_pic():
+def render_pic(epd):
     # TODO: pass in pic received from hook
     try:
         logging.info("attempting render")
-        epd = epd5in65f.EPD()
         image = Image.open(os.path.join(os.path.dirname(os.path.realpath(__file__)), pic))
         epd.display(epd.getbuffer(image))
 
@@ -48,6 +47,7 @@ def init_display():
         logging.info("init and Clear")
         epd.init()
         epd.Clear()
+        return epd
 
     except IOError as e:
         logging.info(e)

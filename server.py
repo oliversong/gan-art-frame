@@ -2,6 +2,7 @@ from flask import Flask
 from write_to_acep import render_pic, init_display
 
 app = Flask(__name__)
+epd = None
 
 @app.route("/")
 def hello_world():
@@ -9,7 +10,7 @@ def hello_world():
 
 @app.route("/render")
 def render():
-    render_pic()
+    render_pic(epd)
     return('', 204)
 
 @app.route("/voice_hook", methods=['POST'])
@@ -29,5 +30,5 @@ def voice_hook():
     return('', 204)
 
 if __name__ == '__main__':
-    init_display()
+    epd = init_display()
     app.run(host='0.0.0.0', port=8090)
