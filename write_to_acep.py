@@ -4,9 +4,14 @@ import sys
 import os
 import logging
 import time
+
+libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')
+if os.path.exists(libdir):
+    sys.path.append(libdir)
+
+from waveshare_epd import epd5in65f
 from PIL import Image,ImageDraw
 import traceback
-import epd_lib
 
 logging.basicConfig(level=logging.DEBUG)
 
