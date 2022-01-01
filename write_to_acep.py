@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 pic = 'test.bmp'
 
-def render_pic(pic):
+def render_pic():
     try:
         logging.info("attempting render")
         epd.display(epd.getbuffer(pic))
