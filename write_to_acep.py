@@ -15,7 +15,7 @@ import traceback
 
 logging.basicConfig(level=logging.DEBUG)
 
-pic = 'test.bmp'
+pics = ['test.bmp', '1.bmp', '2.bmp', '3.bmp', '4.bmp']
 
 def bitmapitize():
     # TODO: convert a normal image into a X by Y bitmap with 7 colors
@@ -23,24 +23,21 @@ def bitmapitize():
 
 class AcepController:
     def __init__(self):
-        self.awake = False
         self.epd_instance = None
+        self.pic_index = 0
 
     def render_pic(self):
         # TODO: pass in pic received from hook
         try:
             logging.info("attempting render")
-            if self.awake == False:
-                logging.info("module asleep, waking")
-                epd5in65f.epdconfig.module_init()
-            image = Image.open(os.path.join(os.path.dirname(os.path.realpath(__file__)), pic))
+            image = Image.open(
+                os.path.join(
+                    os.path.dirname(os.path.realpath(__file__)),
+                    pics[self.pic_index]
+                )
+            )
             self.epd_instance.display(self.epd_instance.getbuffer(image))
-
-            time.sleep(3)
-
-            logging.info("sleep")
-            self.epd_instance.sleep()
-            self.awake = False
+            self.pic_index = (self.pic_index + 1) % len(pics)
 
         except IOError as e:
             logging.info(e)
@@ -56,7 +53,6 @@ class AcepController:
             logging.info("init and Clear")
             self.epd_instance.init()
             self.epd_instance.Clear()
-            self.awake = True
             return self.epd_instance
 
         except IOError as e:
