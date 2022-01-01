@@ -2,15 +2,15 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
-picdir = os.path.join(, 'pic')
-
 import logging
-from waveshare_epd import epd5in65f
 import time
 from PIL import Image,ImageDraw
 import traceback
+import epd_lib
 
 logging.basicConfig(level=logging.DEBUG)
+
+pic = 'test.bmp'
 
 try:
     logging.info("hi")
@@ -20,7 +20,7 @@ try:
     epd.Clear()
 
     logging.info("read bmp file")
-    Himage = Image.open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'test.bmp'))
+    Himage = Image.open(os.path.join(os.path.dirname(os.path.realpath(__file__)), pic))
     epd.display(epd.getbuffer(Himage))
     time.sleep(3)
 
