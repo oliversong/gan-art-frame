@@ -31,7 +31,7 @@ class AcepController:
         # TODO: pass in pic received from hook
         try:
             logging.info("attempting render")
-            if not self.epd_instance.awake:
+            if not self.awake:
                 logging.info("not awake, waking")
                 self.epd_instance.init()
             image = Image.open(
