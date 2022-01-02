@@ -1,5 +1,7 @@
 import requests
 import time
+import shutil
+import os
 
 class Wombo:
     def __init__(self):
@@ -8,7 +10,6 @@ class Wombo:
         self.token = None
         self.id = None
         self.url = None
-        self.filepath = None
 
     def get_auth_token(self):
         print('getting auth token')
@@ -69,6 +70,14 @@ class Wombo:
 
     def download_image(self):
         # hit url, store in file system
+        filename = 'raw.jpg'
+        r = requests.get(self.url, stream = True)
+        if r.status_code == 200:
+            r.raw.decode_content = True
+            with open(filename, 'wb' as f):
+                shutil.copyfileobj(r.raw, f)
 
-        self.filepath = "whatever"
-        pass
+            print('Image downloaded and stored')
+        else:
+            print('something bad happened')
+            print(r.raw)

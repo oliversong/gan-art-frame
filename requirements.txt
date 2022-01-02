@@ -6,3 +6,4 @@ MarkupSafe==2.0.1
 spidev==3.5
 Werkzeug==2.0.2
 requests==2.26.0
+Pillow==8.4.0

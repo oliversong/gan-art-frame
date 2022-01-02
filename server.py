@@ -1,6 +1,7 @@
 from flask import Flask
 from write_to_acep import AcepController
 from wombo import Wombo
+from bitmap import make_bitmap
 
 app = Flask(__name__)
 controller = None
@@ -18,8 +19,9 @@ def render():
 def generate():
     w = Wombo()
     w.generate(request.form['prompt'], request.form['style'])
-    w.download_image(url)
-    bitmap_path = make_bitmap(w.filepath)
+    w.download_image()
+    make_bitmap()
+    bitmap_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'bitmap.bmp')
     controller.render_pic(bitmap_path)
     return('', 204)
 
