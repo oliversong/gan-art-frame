@@ -5,6 +5,7 @@ import os
 
 class Wombo:
     def __init__(self):
+        self.token_server = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="
         self.secret = "AIzaSyDCvp5MTJLUdtBYEKYWXJrlLzu1zuKM6Xw"
         self.wombo_api = 'https://paint.api.wombo.ai/api/tasks/'
         self.token = None
@@ -15,9 +16,7 @@ class Wombo:
         print('getting auth token')
         # POST to /v1/accounts:signUp?key=AIzaSyDCvp5MTJLUdtBYEKYWXJrlLzu1zuKM6Xw
         # payload {returnSecureToken: true}
-        # self.token = response.idToken
-        token_server = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDCvp5MTJLUdtBYEKYWXJrlLzu1zuKM6Xw'
-        r = requests.post(token_server, data={"returnSecureToken":True})
+        r = requests.post(self.token_server+self.secret, data={"returnSecureToken":True})
         res = r.json()
         print('received response', res)
         print('id token acquired', res['idToken'])
