@@ -17,8 +17,16 @@ def render():
 
 @app.route("/generate", methods=['POST'])
 def generate():
+    request_data = request.get_json()
+    print(request_data)
+    prompt = request_data['prompt']
+    style = request_data['style']
+    if not prompt:
+        print('missing prompt')
+    if not style:
+        print('missing style')
     w = Wombo()
-    w.generate(request.form['prompt'], request.form['style'])
+    w.generate(prompt, style)
     w.download_image()
     make_bitmap()
     bitmap_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'bitmap.bmp')
