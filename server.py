@@ -43,7 +43,8 @@ def voice_hook():
     # "cyberpunk"
 
     request_data = request.get_json()
-    params = request_data["requestJson"]["session"]["params"]
+    print("all hook data", request_data)
+    params = request_data["session"]["params"]
     style = params["style"]
     prompt = params["prompt"]
     if not style:
@@ -83,12 +84,12 @@ def voice_hook():
     style_id = styles_map[style]
     print("found prompt and style", prompt, style_id)
 
-    # w = Wombo()
-    # w.generate(prompt, style)
-    # w.download_image()
-    # make_bitmap()
-    # bitmap_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'bitmap.bmp')
-    # controller.render_pic(bitmap_path)
+    w = Wombo()
+    w.generate(prompt, style_id)
+    w.download_image()
+    make_bitmap()
+    bitmap_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'bitmap.bmp')
+    controller.render_pic(bitmap_path)
     return('', 204)
 
 if __name__ == '__main__':
