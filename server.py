@@ -2,6 +2,7 @@ from flask import Flask, request
 from write_to_acep import AcepController
 from wombo import Wombo
 from bitmap import make_bitmap
+from Levenshtein import distance as lev
 
 app = Flask(__name__)
 controller = None
@@ -39,14 +40,54 @@ def voice_hook():
     # "man fighting a dragon in a field"
     # style something like
     # "cyberpunk"
-    # prompt = request.form['prompt']
-    # style = request.form['style']
 
+    request_data = request.get_json()
+    params = request_data["requestJson"]["session"]["params"]
+    style = params["style"]
+    prompt = params["prompt"]
+    if not style:
+        print("missing style in voice hook params")
+        return('', 204)
+    if not prompt:
+        print("missing prompt in voice hook params")
+        return('', 204)
 
-    # make an api call to generate a GAN image
-    # image = api.generate(prompt, style)
-    # render_pic(image)
+    styles_map = {
+        "synthwave": 1,
+        "ukiyoe": 2,
+        "steampunk": 4,
+        "fantasy": 5,
+        "vibrant": 6,
+        "HD": 7,
+        "pastel": 8,
+        "psychic": 9,
+        "dark fantasy": 10,
+        "festive": 12,
+        "mystical": 11,
+        "baroque": 13,
+        "etching": 14
+    }
 
+    if style not in styles_map.keys():
+        keys = styles_map.keys()
+        lev_distances = [lev(style, s) for s in keys]
+        lowest = None
+        lowest_key = None
+        for key, val in enumerate(lev_distances):
+            if lowest is None or val < lowest:
+                lowest = val
+                lowest_key = key
+        style = keys[lowest_key]
+
+    style_id = styles_map[style]
+    print("found prompt and style", prompt, style_id)
+
+    # w = Wombo()
+    # w.generate(prompt, style)
+    # w.download_image()
+    # make_bitmap()
+    # bitmap_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'bitmap.bmp')
+    # controller.render_pic(bitmap_path)
     return('', 204)
 
 if __name__ == '__main__':

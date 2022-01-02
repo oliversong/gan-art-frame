@@ -7,3 +7,4 @@ spidev==3.5
 Werkzeug==2.0.2
 requests==2.26.0
 Pillow==8.4.0
+python-Levenshtein==0.12.2
