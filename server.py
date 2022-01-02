@@ -3,6 +3,7 @@ from write_to_acep import AcepController
 from wombo import Wombo
 from bitmap import make_bitmap
 from Levenshtein import distance as lev
+import os
 
 app = Flask(__name__)
 controller = None
