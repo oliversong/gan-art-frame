@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from write_to_acep import AcepController
 from wombo import Wombo
 from bitmap import make_bitmap
