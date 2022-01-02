@@ -59,10 +59,11 @@ class Wombo:
             self.get_result()
 
     def generate(self, prompt, style):
+        self.get_auth_token()
         self.get_task_id()
         self.enqueue_job(prompt, style)
 
-        sleep(5)
+        time.sleep(5)
         self.get_result()
 
         return self.url
