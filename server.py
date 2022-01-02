@@ -4,6 +4,7 @@ from wombo import Wombo
 from bitmap import make_bitmap
 from Levenshtein import distance as lev
 import os
+import threading
 
 app = Flask(__name__)
 controller = None
@@ -17,6 +18,14 @@ def render():
     controller.render_pic()
     return('', 204)
 
+def heavy_lifting(prompt, style):
+    w = Wombo()
+    w.generate(prompt, style)
+    w.download_image()
+    make_bitmap()
+    bitmap_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'bitmap.bmp')
+    controller.render_pic(bitmap_path)
+
 @app.route("/generate", methods=['POST'])
 def generate():
     request_data = request.get_json()
@@ -27,12 +36,9 @@ def generate():
         print('missing prompt')
     if not style:
         print('missing style')
-    w = Wombo()
-    w.generate(prompt, style)
-    w.download_image()
-    make_bitmap()
-    bitmap_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'bitmap.bmp')
-    controller.render_pic(bitmap_path)
+
+    thread = threading.Thread(target=heavy_lifting, kwargs={'prompt': prompt, 'style': style})
+    thread.start()
     return('', 204)
 
 @app.route("/voice_hook", methods=['POST'])
@@ -84,12 +90,8 @@ def voice_hook():
     style_id = styles_map[style]
     print("found prompt and style", prompt, style_id)
 
-    w = Wombo()
-    w.generate(prompt, style_id)
-    w.download_image()
-    make_bitmap()
-    bitmap_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'bitmap.bmp')
-    controller.render_pic(bitmap_path)
+    thread = threading.Thread(target=heavy_lifting, kwargs={'prompt': prompt, 'style': style_id})
+    thread.start()
     return('', 204)
 
 if __name__ == '__main__':
