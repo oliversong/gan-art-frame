@@ -74,7 +74,7 @@ class Wombo:
         r = requests.get(self.url, stream = True)
         if r.status_code == 200:
             r.raw.decode_content = True
-            with open(filename, 'wb' as f):
+            with open(filename, 'wb') as f):
                 shutil.copyfileobj(r.raw, f)
 
             print('Image downloaded and stored')
