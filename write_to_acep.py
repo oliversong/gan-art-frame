@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 pics = ['test.bmp', '1.bmp', '2.bmp', '3.bmp', '4.bmp']
 
-def bitmapitize():
+def make_bitmap(path):
     # TODO: convert a normal image into a X by Y bitmap with 7 colors
     pass
 
@@ -27,21 +27,26 @@ class AcepController:
         self.pic_index = 0
         self.awake = False
 
-    def render_pic(self):
-        # TODO: pass in pic received from hook
+    def render_pic(self, bitmap_path=None):
         try:
             logging.info("attempting render")
             if not self.awake:
                 logging.info("not awake, waking")
                 self.epd_instance.init()
-            image = Image.open(
-                os.path.join(
-                    os.path.dirname(os.path.realpath(__file__)),
-                    pics[self.pic_index]
+
+            if not bitmap_path:
+                image = Image.open(
+                    os.path.join(
+                        os.path.dirname(os.path.realpath(__file__)),
+                        pics[self.pic_index]
+                    )
                 )
-            )
-            self.epd_instance.display(self.epd_instance.getbuffer(image))
-            self.pic_index = (self.pic_index + 1) % len(pics)
+                self.epd_instance.display(self.epd_instance.getbuffer(image))
+                self.pic_index = (self.pic_index + 1) % len(pics)
+            else:
+                image = Image.open(bitmap_path)
+                self.epd_instance.display(self.epd_instance.getbuffer(image))
+
 
             time.sleep(3)
             logging.info("sleep")
